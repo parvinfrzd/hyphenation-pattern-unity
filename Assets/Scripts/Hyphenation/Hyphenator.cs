@@ -13,26 +13,20 @@ namespace Hyphenation
     /// <summary>
     /// Implementation of Frank Liang's hyphenation algorithm
     /// </summary>
-    /// <param name="loader">ILoader for load hyphenation patterns</param>
-    /// <param name="hyphenateSymbol">Symbol used for denote hyphenation</param>
-    /// <param name="minWordLength">Minimum word length for hyphenation word</param>
-    /// <param name="minLetterCount">Minimum number of characters left on line</param>
-    /// <param name="hyphenateLastWord">Hyphenate last word, NOTE: this option works only if input text contains more than one word</param>
-    /// <param name="sortPatterns">Sort patterns before using, can be needed for some languages like German, Portuguese, etc. </param>
-
+    
     public class Hyphenator : MonoBehaviour
     {
-        public FilePatternsLoader loader; 
-        public string hyphenateSymbol = "-";
-        public int minLetterCount = 1;
-        public bool sortPatterns = true;
-        public bool hyphenateLastWord = true; 
+        public FilePatternsLoader loader;           //ILoader for load hyphenation patterns
+        public string hyphenateSymbol = "-";        //Symbol used for denote hyphenation
+        public int minLetterCount = 1;              //Minimum number of characters left on line
+        public bool sortPatterns = true;            //Sort patterns before using, can be needed for some languages like German, Portuguese, etc. 
+        public bool hyphenateLastWord = true;       //Hyphenate last word, NOTE: this option works only if input text contains more than one word 
         private const char Marker = '.';
         private bool _hyphenateLastWord;
         private bool _sortPatterns;
         private string _hyphenateSymbol;
         private int _minLetterCount;
-        private int _minWordLength;
+        private int _minWordLength;                 //Minimum word length for hyphenation word
         private Dictionary<string, int[]> _exceptions = new Dictionary<string, int[]>();
         private List<Pattern> _patterns;
         private static Regex CreateMaskRegex = new Regex(@"\w", RegexOptions.Compiled);
