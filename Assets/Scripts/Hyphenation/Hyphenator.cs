@@ -10,6 +10,16 @@ using UnityEngine;
 
 namespace Hyphenation
 {
+    /// <summary>
+    /// Implementation of Frank Liang's hyphenation algorithm
+    /// </summary>
+    /// <param name="loader">ILoader for load hyphenation patterns</param>
+    /// <param name="hyphenateSymbol">Symbol used for denote hyphenation</param>
+    /// <param name="minWordLength">Minimum word length for hyphenation word</param>
+    /// <param name="minLetterCount">Minimum number of characters left on line</param>
+    /// <param name="hyphenateLastWord">Hyphenate last word, NOTE: this option works only if input text contains more than one word</param>
+    /// <param name="sortPatterns">Sort patterns before using, can be needed for some languages like German, Portuguese, etc. </param>
+
     public class Hyphenator : MonoBehaviour
     {
         public FilePatternsLoader loader; 
@@ -27,28 +37,6 @@ namespace Hyphenation
         private List<Pattern> _patterns;
         private static Regex CreateMaskRegex = new Regex(@"\w", RegexOptions.Compiled);
 
-        /// <summary>
-        /// Implementation of Frank Liang's hyphenation algorithm
-        /// </summary>
-        /// <param name="loader">ILoader for load hyphenation patterns</param>
-        /// <param name="hyphenateSymbol">Symbol used for denote hyphenation</param>
-        /// <param name="minWordLength">Minimum word length for hyphenation word</param>
-        /// <param name="minLetterCount">Minimum number of characters left on line</param>
-        /// <param name="hyphenateLastWord">Hyphenate last word, NOTE: this option works only if input text contains more than one word</param>
-        /// <param name="sortPatterns">Sort patterns before using, can be needed for some languages like German, Portuguese, etc. </param>
-        // public Hyphenator(
-        //     string hyphenateSymbol = "-",
-        //     int minWordLength = 1,
-        //     int minLetterCount = 1,
-        //     bool hyphenateLastWord = false,
-        //     bool sortPatterns = true)
-        // {
-        //     _hyphenateSymbol = hyphenateSymbol;
-        //     _minWordLength = minWordLength;
-        //     _minLetterCount = minLetterCount >= 0 ? minLetterCount : 0;
-        //     _hyphenateLastWord = false;
-        //     _sortPatterns = true;
-        // }
 
         void Awake() {
             _hyphenateSymbol = hyphenateSymbol;
@@ -77,11 +65,6 @@ namespace Hyphenation
             _patterns = patternsString.Split(sep, StringSplitOptions.RemoveEmptyEntries)
                 .Select(CreatePattern)
                 .ToList();
-
-            if (_sortPatterns)
-            {
-                _patterns = _patterns.OrderBy(x => x).ToList();
-            }
 
             _exceptions = exceptionsString.Split(sep, StringSplitOptions.RemoveEmptyEntries)
                 .ToDictionary(x => x.Replace("-", ""), CreateHyphenateMaskFromExceptionString);
